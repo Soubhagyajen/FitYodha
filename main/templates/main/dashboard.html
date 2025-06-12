@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | FitYodha{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 text-white py-16">
+  <div class="container mx-auto px-4 text-center">
+    <h1 class="text-4xl font-warrior mb-4 text bg-clip-text bg-gradient-to-r from-saffron-300 to-gold-400">
+      Welcome, {{ user.username }} 🛡️
+    </h1>
+    {% if streak_warning %}
+  <div class="bg-yellow-600 text-white text-sm p-3 rounded-lg mt-4 shadow-md border border-yellow-400">
+    ⚠️ You missed yesterday’s workout! Your streak will break if you skip today.
+  </div>
+{% endif %}
+
+    <p class="text-gray-300 text-lg mb-6">
+      Your warrior journey continues. Track your karma, train daily, and rise in the Yodha Sabha.
+    </p>
+    
+
+{% if user.profile.streak %}
+  <p class="text-saffron-300 text-sm">
+    🔥 {{ user.profile.streak }}-day streak
+    {% if user.profile.streak >= 7 %}
+      <span class="ml-2 px-2 py-1 text-yellow-400 border border-yellow-400 rounded text-xs">🥇 Gold</span>
+    {% elif user.profile.streak >= 3 %}
+      <span class="ml-2 px-2 py-1 text-gray-200 border border-gray-300 rounded text-xs">🥈 Silver</span>
+    {% elif user.profile.streak >= 1 %}
+      <span class="ml-2 px-2 py-1 text-orange-300 border border-orange-400 rounded text-xs">🥉 Bronze</span>
+    {% endif %}
+  </p>
+{% endif %}
+
+    <!-- Karma Score Summary -->
+<div class="mt-10 text-center">
+  <h2 class="text-2xl font-warrior text-gold-300 mb-2">⚡ Your Karma Score</h2>
+  <p class="text-xl text-white">You’ve earned <span class="text-saffron-300 font-bold">{{ karma_score }}</span> karma points</p>
+</div>
+{% if plans %}
+  <div class="mt-6 bg-white/5 p-4 rounded-lg border border-saffron-500/10">
+    <h2 class="text-xl font-semibold text-saffron-300 mb-2">
+      🧠 {{ plans.0.level }} {{ plans.0.goal }} Plan
+    </h2>
+    <pre class="whitespace-pre-wrap text-gray-100">{{ plans.0.plan_text }}</pre>
+    <p class="text-xs text-gray-400 mt-2">🗓️ Created: {{ plans.0.created_at|date:"M d, Y" }}</p>
+
+    <a href="{% url 'export_plan_pdf' plans.0.pk %}" target="_blank"
+       class="inline-block mt-4 bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded hover:scale-105 transition">
+      📤 Export as PDF
+    </a>
+  </div>
+{% endif %}
+{% if diets %}
+  <div class="mt-6 bg-white/5 p-4 rounded-lg border border-gold-500/20">
+    <h2 class="text-xl font-semibold text-gold-300 mb-2">🍱 Your Diet Plan ({{ diets.0.goal }})</h2>
+    <pre class="whitespace-pre-wrap text-gray-100">{{ diets.0.plan_text }}</pre>
+    <p class="text-xs text-gray-400 mt-2">🗓️ Created: {{ diets.0.created_at|date:"M d, Y" }}</p>
+    <a href="{% url 'export_diet_pdf' diets.0.pk %}" target="_blank"
+   class="inline-block mt-4 bg-gradient-to-r from-gold-500 to-saffron-600 text-white px-4 py-2 rounded hover:scale-105 transition">
+  📤 Export Diet Plan as PDF
+</a>
+
+  </div>
+{% endif %}
+
+<div class="mt-12">
+  <h2 class="text-2xl font-warrior text-gold-400 mb-4 text-center">📊 7-Day Activity Summary</h2>
+  <canvas id="workoutChart" class="bg-steel-800 p-4 rounded-xl"></canvas>
+</div>
+
+<!-- Recent Logs -->
+<div class="mt-12">
+  <h2 class="text-2xl font-warrior text-saffron-300 mb-4 text-center">🗓️ Your Recent Battles</h2>
+  <div class="space-y-4">
+    {% for log in recent_logs %}
+      <div class="bg-white/10 backdrop-blur p-4 rounded-xl border border-saffron-500/20 shadow">
+        <p><span class="text-saffron-300 font-bold">Type:</span> {{ log.workout_type }}</p>
+        <p><span class="text-saffron-300 font-bold">Duration:</span> {{ log.duration }} min</p>
+        <p><span class="text-saffron-300 font-bold">Intensity:</span> {{ log.intensity }}</p>
+        <p><span class="text-saffron-300 font-bold">Date:</span> {{ log.date }}</p>
+      </div>
+    {% empty %}
+      <p class="text-center text-gray-300">No workouts logged yet. Go fight your first battle!</p>
+    {% endfor %}
+  </div>
+</div>
+
+</section>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('workoutChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ workout_chart_labels|safe }},
+      datasets: [{
+        label: 'Workouts Logged',
+        data: {{ workout_chart_data|safe }},
+        backgroundColor: '#f59e0b',
+        borderColor: '#d97706',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { color: 'white' }
+        },
+        x: {
+          ticks: { color: 'white' }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: { color: 'white' }
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}
+
+{% endblock %}

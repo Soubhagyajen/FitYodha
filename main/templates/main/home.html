@@ -1,0 +1,601 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitYodha - Train like Arjuna. Track like Krishna.</title>
+    <meta name="description" content="Ancient Indian warrior-inspired fitness tracking app. Your discipline is your Dharma.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        saffron: {
+                            50: '#fef8f0',
+                            100: '#fdeee0',
+                            300: '#f9c474',
+                            500: '#ff9933',
+                            600: '#e67a1a',
+                            700: '#cc6600',
+                            800: '#b35900',
+                            900: '#994d00'
+                        },
+                        maroon: {
+                            50: '#fdf2f2',
+                            100: '#fce4e4',
+                            300: '#f5a3a3',
+                            500: '#8b0000',
+                            600: '#7d0000',
+                            700: '#6f0000',
+                            800: '#610000',
+                            900: '#530000'
+                        },
+                        steel: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            300: '#cbd5e1',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a'
+                        },
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            300: '#fcd34d',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f'
+                        }
+                    },
+                    fontFamily: {
+                        'warrior': ['Cinzel', 'serif'],
+                        'sanskrit': ['Noto Sans Devanagari', 'sans-serif']
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'slideIn': 'slideIn 0.6s ease-out'
+                    },
+                    keyframes: {
+                        'glow': {
+                            '0%, 100%': { boxShadow: '0 0 20px rgba(255, 153, 51, 0.5)' },
+                            '50%': { boxShadow: '0 0 40px rgba(255, 153, 51, 0.8)' }
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'slideIn': {
+                            '0%': { transform: 'translateX(-100%)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #8b0000 0%, #475569 50%, #8b0000 100%);
+        }
+        
+        .hero-bg {
+            background-image: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .mandala-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff9933' fill-opacity='0.3'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='15' cy='15' r='1'/%3E%3Ccircle cx='45' cy='15' r='1'/%3E%3Ccircle cx='15' cy='45' r='1'/%3E%3Ccircle cx='45' cy='45' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .stone-texture {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M20 20c0-11.046-8.954-20-20-20v20h20z'/%3E%3Cpath d='M0 20c11.046 0 20-8.954 20-20H0v20z'/%3E%3Cpath d='M20 40c0-11.046-8.954-20-20-20v20h20z'/%3E%3Cpath d='M40 20c-11.046 0-20 8.954-20 20h20V20z'/%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .nav-underline {
+            position: relative;
+        }
+        
+        .nav-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #ff9933, #f59e0b);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-underline:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="relative bg-gradient-custom shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-saffron-500 to-gold-500 rounded-full flex items-center justify-center animate-glow">
+                        <span class="text-white font-bold text-lg">⚔️</span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-warrior font-bold text-transparent bg-gradient-to-r from-saffron-300 to-gold-400 bg-clip-text">
+                        FitYodha
+                    </h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex space-x-8">
+                    <a href="{% url "home" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Home</a>
+                    <a href="{% url "dashboard" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Dashboard</a>
+                    <a href="{% url "generate_workout" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Generate Workout</a>
+                    <a href="{% url 'generate_diet' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">
+  🍱 Generate Diet
+</a>
+
+                    <a href="{% url "log_workout" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Log Workout</a>
+                    <a href="{% url "leaderboard" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Yodha Sabha</a>
+                    <a href="{% url "blog_list" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium nav-underline">Katha Path</a>
+                </nav>
+
+                <!-- Login Button -->
+               <div class="hidden lg:block">
+  {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit"
+        class="bg-gradient-to-r from-red-600 to-maroon-600 hover:from-red-700 hover:to-maroon-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+        Logout
+    </button>
+</form>
+
+  {% else %}
+    <a href="{% url 'login' %}" 
+       class="bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+      Login
+    </a>
+  {% endif %}
+</div>
+
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden text-white p-2" onclick="toggleMobileMenu()">
+                    <span id="menu-icon">☰</span>
+                </button>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="lg:hidden mt-4 pb-4 border-t border-steel-700 hidden">
+                <nav class="flex flex-col space-y-4 mt-4">
+                    <a href="{% url "home" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Home</a>
+                    <a href="{% url "dashboard" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Dashboard</a>
+                    <a href="{% url "generate_workout" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Generate Workout</a>
+                    <a href="{% url "log_workout" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Log Workout</a>
+                    <a href="{% url "leaderboard" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Yodha Sabha</a>
+                    <a href="{% url "blog_list" %}" class="text-gray-200 hover:text-saffron-300 transition-colors duration-300 font-medium">Katha Path</a>
+                    {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit"
+        class="bg-gradient-to-r from-red-600 to-maroon-600 hover:from-red-700 hover:to-maroon-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+        Logout
+    </button>
+</form>
+
+  {% else %}
+    <a href="{% url 'login' %}" 
+       class="bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
+      Login
+    </a>
+  {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background with gradient overlay -->
+        <div class="absolute inset-0 hero-bg"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-maroon-900/80 via-steel-900/70 to-maroon-800/80"></div>
+        
+        <!-- Mandala pattern overlay -->
+        <div class="absolute inset-0 opacity-10 mandala-pattern"></div>
+
+        <!-- Content -->
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <!-- Floating warrior icon -->
+            <div class="mb-8 flex justify-center">
+                <div class="w-20 h-20 bg-gradient-to-br from-saffron-500 to-gold-500 rounded-full flex items-center justify-center animate-float shadow-2xl">
+                    <span class="text-white text-3xl">🏹</span>
+                </div>
+            </div>
+
+            <!-- Main heading -->
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-warrior font-bold mb-6 animate-slideIn">
+                <span class="text-transparent bg-gradient-to-r from-saffron-300 via-gold-400 to-saffron-300 bg-clip-text">
+                    Train like Arjuna.
+                </span>
+                <br>
+                <span class="text-transparent bg-gradient-to-r from-gold-500 via-saffron-300 to-gold-500 bg-clip-text">
+                    Track like Krishna.
+                </span>
+            </h1>
+
+            <!-- Subtext -->
+            <p class="text-xl md:text-2xl text-gray-200 mb-4 font-medium">
+                Your discipline is your <span class="text-saffron-300 font-semibold">Dharma</span>
+            </p>
+            
+            <p class="text-lg text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+                Embark on a legendary fitness journey inspired by the greatest warriors of Indian mythology. 
+                Track your progress, build streaks, and become the warrior you were meant to be.
+            </p>
+
+            <!-- CTA Button -->
+            <button class="bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-2xl transform hover:scale-105 transition-all duration-300 group">
+                <a href="{% url "dashboard" %}">Begin Your Warrior's Journey</a>
+                <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
+            </button>
+
+            <!-- Stats -->
+            <div class="mt-16 grid grid-cols-3 gap-8 max-w-md mx-auto">
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-saffron-300">5K+</div>
+                    <div class="text-sm text-gray-300">Warriors</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-gold-400">50K+</div>
+                    <div class="text-sm text-gray-300">Workouts</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl md:text-3xl font-bold text-saffron-300">95%</div>
+                    <div class="text-sm text-gray-300">Success Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div class="w-6 h-10 border-2 border-saffron-300 rounded-full flex justify-center">
+                <div class="w-1 h-3 bg-saffron-300 rounded-full mt-2 animate-pulse"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-gradient-to-br from-steel-50 to-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-warrior font-bold mb-6">
+                    <span class="text-transparent bg-gradient-to-r from-maroon-700 to-steel-800 bg-clip-text">
+                        Ancient Powers
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Harness the legendary abilities of mythological warriors to transform your fitness journey
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <!-- Feature 1 -->
+                <div class="group hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl overflow-hidden rounded-lg">
+                    <div class="text-center pb-4 pt-6 px-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-maroon-600 to-maroon-800 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                            <span class="text-2xl">🗡️</span>
+                        </div>
+                        <h3 class="text-xl font-warrior font-bold text-gray-800 mb-2">Yuddha Plan Generator</h3>
+                        <p class="text-sm font-sanskrit text-saffron-600 font-semibold">युद्ध योजना</p>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Personalized workout roadmap crafted like ancient battle strategies. AI-powered training plans that adapt to your warrior's journey.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl overflow-hidden rounded-lg">
+                    <div class="text-center pb-4 pt-6 px-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-saffron-600 to-gold-600 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                            <span class="text-2xl">🔥</span>
+                        </div>
+                        <h3 class="text-xl font-warrior font-bold text-gray-800 mb-2">Streak Chakra</h3>
+                        <p class="text-sm font-sanskrit text-saffron-600 font-semibold">स्ट्रीक चक्र</p>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Daily consistency streaks that burn bright like sacred fire. Build momentum and maintain your spiritual discipline.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl overflow-hidden rounded-lg">
+                    <div class="text-center pb-4 pt-6 px-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-steel-600 to-steel-800 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                            <span class="text-2xl">⚡</span>
+                        </div>
+                        <h3 class="text-xl font-warrior font-bold text-gray-800 mb-2">Karma Score</h3>
+                        <p class="text-sm font-sanskrit text-saffron-600 font-semibold">कर्म स्कोर</p>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Earn points for every workout, meditation, and healthy choice. Your actions create your destiny in the fitness realm.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="group hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl overflow-hidden rounded-lg">
+                    <div class="text-center pb-4 pt-6 px-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-gold-600 to-saffron-600 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                            <span class="text-2xl">🏆</span>
+                        </div>
+                        <h3 class="text-xl font-warrior font-bold text-gray-800 mb-2">Yodha Sabha</h3>
+                        <p class="text-sm font-sanskrit text-saffron-600 font-semibold">योद्धा सभा</p>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Compete with fellow warriors in our legendary leaderboard. Rise through the ranks and claim your rightful throne.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="group hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-sm border-0 shadow-xl hover:shadow-2xl overflow-hidden rounded-lg md:col-span-2 lg:col-span-1">
+                    <div class="text-center pb-4 pt-6 px-6">
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-maroon-700 to-steel-700 flex items-center justify-center mx-auto mb-4 group-hover:animate-pulse">
+                            <span class="text-2xl">📜</span>
+                        </div>
+                        <h3 class="text-xl font-warrior font-bold text-gray-800 mb-2">Katha Path</h3>
+                        <p class="text-sm font-sanskrit text-saffron-600 font-semibold">कथा पथ</p>
+                    </div>
+                    <div class="px-6 pb-6">
+                        <p class="text-gray-600 leading-relaxed text-center">
+                            Share your warrior stories and read tales of triumph. A sacred space for fitness wisdom and motivation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decorative elements -->
+            <div class="mt-16 flex justify-center space-x-8 opacity-30">
+                <div class="w-1 h-16 bg-gradient-to-b from-transparent via-saffron-400 to-transparent"></div>
+                <div class="w-1 h-20 bg-gradient-to-b from-transparent via-maroon-400 to-transparent"></div>
+                <div class="w-1 h-16 bg-gradient-to-b from-transparent via-gold-400 to-transparent"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 relative overflow-hidden">
+        <!-- Background pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="w-full h-full" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 25L60 40L50 55L40 40z' fill='%23ff9933' fill-opacity='0.3'/%3E%3Cpath d='M25 50L40 60L25 75L10 60z' fill='%23ff9933' fill-opacity='0.2'/%3E%3Cpath d='M75 50L90 60L75 75L60 60z' fill='%23ff9933' fill-opacity='0.2'/%3E%3Cpath d='M50 75L60 90L50 105L40 90z' fill='%23ff9933' fill-opacity='0.3'/%3E%3C/svg%3E'); background-size: 100px 100px;"></div>
+        </div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-warrior font-bold mb-6">
+                    <span class="text-transparent bg-gradient-to-r from-saffron-300 to-gold-400 bg-clip-text">
+                        Sacred Wisdom
+                    </span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Ancient teachings that guide the modern warrior's path
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Testimonial 1 -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-lg transform rotate-1 group-hover:rotate-0 transition-transform duration-300 shadow-xl"></div>
+                    <div class="relative bg-gradient-to-br from-amber-50 to-yellow-50 p-8 rounded-lg shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+                        <div class="mb-6">
+                            <div class="text-2xl text-maroon-800 font-sanskrit leading-relaxed mb-4 text-center">
+                                धैर्यवान्सत्यवक्तच्छूरश्च गुणवान्कुशली दक्षश्च विद्वान्सच कर्मकुशलश्च।
+                            </div>
+                            <div class="w-16 h-px bg-gradient-to-r from-transparent via-saffron-500 to-transparent mx-auto mb-4"></div>
+                        </div>
+                        <p class="text-gray-700 italic text-center mb-6 leading-relaxed">
+                            "One who is patient, truthful, brave, virtuous, skilled, capable, learned, and efficient in action."
+                        </p>
+                        <div class="text-center">
+                            <div class="font-semibold text-maroon-700 mb-1">- Mahabharata</div>
+                            <div class="text-sm text-gray-600">Qualities of a True Warrior</div>
+                        </div>
+                        <!-- Decorative corner elements -->
+                        <div class="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-saffron-400"></div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-lg transform rotate-1 group-hover:rotate-0 transition-transform duration-300 shadow-xl"></div>
+                    <div class="relative bg-gradient-to-br from-amber-50 to-yellow-50 p-8 rounded-lg shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+                        <div class="mb-6">
+                            <div class="text-2xl text-maroon-800 font-sanskrit leading-relaxed mb-4 text-center">
+                                उद्यमेन हि सिध्यन्ति कार्याणि न मनोरथैः।
+                            </div>
+                            <div class="w-16 h-px bg-gradient-to-r from-transparent via-saffron-500 to-transparent mx-auto mb-4"></div>
+                        </div>
+                        <p class="text-gray-700 italic text-center mb-6 leading-relaxed">
+                            "Success comes through effort, not mere wishful thinking."
+                        </p>
+                        <div class="text-center">
+                            <div class="font-semibold text-maroon-700 mb-1">- Chanakya Niti</div>
+                            <div class="text-sm text-gray-600">The Path of Discipline</div>
+                        </div>
+                        <!-- Decorative corner elements -->
+                        <div class="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-saffron-400"></div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="relative group">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-lg transform rotate-1 group-hover:rotate-0 transition-transform duration-300 shadow-xl"></div>
+                    <div class="relative bg-gradient-to-br from-amber-50 to-yellow-50 p-8 rounded-lg shadow-2xl transform group-hover:scale-105 transition-all duration-300">
+                        <div class="mb-6">
+                            <div class="text-2xl text-maroon-800 font-sanskrit leading-relaxed mb-4 text-center">
+                                सर्वे गुणा: कांचनमाश्रयन्ते।
+                            </div>
+                            <div class="w-16 h-px bg-gradient-to-r from-transparent via-saffron-500 to-transparent mx-auto mb-4"></div>
+                        </div>
+                        <p class="text-gray-700 italic text-center mb-6 leading-relaxed">
+                            "All virtues reside in gold (metaphor for inner strength)."
+                        </p>
+                        <div class="text-center">
+                            <div class="font-semibold text-maroon-700 mb-1">- Sanskrit Proverb</div>
+                            <div class="text-sm text-gray-600">Inner Transformation</div>
+                        </div>
+                        <!-- Decorative corner elements -->
+                        <div class="absolute top-2 left-2 w-4 h-4 border-l-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute top-2 right-2 w-4 h-4 border-r-2 border-t-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 left-2 w-4 h-4 border-l-2 border-b-2 border-saffron-400"></div>
+                        <div class="absolute bottom-2 right-2 w-4 h-4 border-r-2 border-b-2 border-saffron-400"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to action -->
+            <div class="text-center mt-16">
+                <p class="text-xl text-gray-300 mb-6">
+                    Ready to walk the path of the ancient warriors?
+                </p>
+                <div class="w-32 h-px bg-gradient-to-r from-transparent via-saffron-400 to-transparent mx-auto"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-br from-steel-900 via-maroon-900 to-steel-800 text-white relative overflow-hidden">
+        <!-- Temple-like top border -->
+        <div class="h-2 bg-gradient-to-r from-saffron-500 via-gold-500 to-saffron-500"></div>
+        
+        <!-- Stone texture background -->
+        <div class="absolute inset-0 opacity-5 stone-texture"></div>
+
+        <div class="container mx-auto px-4 py-12 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Logo and Mantra -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-saffron-500 to-gold-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">⚔️</span>
+                        </div>
+                        <h3 class="text-2xl font-warrior font-bold text-transparent bg-gradient-to-r from-saffron-300 to-gold-400 bg-clip-text">
+                            FitYodha
+                        </h3>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Embark on a legendary fitness journey inspired by ancient Indian warriors. 
+                        Transform your body and spirit through disciplined training and mindful practice.
+                    </p>
+                    
+                    <!-- App Mantra -->
+                    <div class="bg-gradient-to-r from-maroon-800/50 to-steel-800/50 p-4 rounded-lg border border-saffron-500/20">
+                        <div class="text-center">
+                            <div class="text-lg font-sanskrit font-semibold text-saffron-300 mb-2">
+                                बल • भक्ति • युद्ध
+                            </div>
+                            <div class="text-sm text-gray-300 tracking-wider">
+                                Strength • Devotion • Battle
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-saffron-300">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="{% url "dashboard" %}" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Dashboard</a></li>
+                        <li><a href="{% url "generate_workout" %}" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Generate Workout</a></li>
+                        <li><a href="{% url "log_workout" %}" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Log Workout</a></li>
+                        <li><a href="{% url "leaderboard" %}" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Yodha Sabha</a></li>
+                        <li><a href="{% url "blog_list" %}" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Katha Path</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal & Support -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-saffron-300">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-saffron-300 transition-colors duration-300 nav-underline">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom section -->
+            <div class="border-t border-steel-700 mt-8 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-gray-400 mb-4 md:mb-0">
+                        © 2024 FitYodha. All rights reserved. | Built with ancient wisdom, modern technology.
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-saffron-300 transition-colors">
+                            <span class="text-xl">📱</span>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-saffron-300 transition-colors">
+                            <span class="text-xl">🐦</span>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-saffron-300 transition-colors">
+                            <span class="text-xl">📘</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative bottom border -->
+        <div class="h-1 bg-gradient-to-r from-maroon-600 via-saffron-500 to-gold-500"></div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                icon.textContent = '✕';
+            } else {
+                menu.classList.add('hidden');
+                icon.textContent = '☰';
+            }
+        }
+    </script>
+</body>
+</html>

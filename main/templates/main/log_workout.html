@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Log Workout | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 py-12">
+  <div class="max-w-lg mx-auto px-6 text-white">
+    <h2 class="text-3xl font-warrior text-saffron-300 text-center mb-6">📝 Log Your Workout</h2>
+
+    {% if message %}
+      <div class="bg-green-600/20 border border-green-500 text-green-300 px-4 py-3 rounded mb-6">
+        {{ message }}
+      </div>
+    {% endif %}
+
+    <form method="POST" class="space-y-5 bg-steel-800 p-6 rounded-xl border border-saffron-600/20 shadow-2xl">
+      {% csrf_token %}
+      
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Workout Type</label>
+        {{ form.workout_type }}
+      </div>
+      
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Duration (minutes)</label>
+        {{ form.duration }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Intensity</label>
+        {{ form.intensity }}
+      </div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white py-2 rounded-lg font-semibold hover:scale-105 transition">
+        Save Workout
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock %}

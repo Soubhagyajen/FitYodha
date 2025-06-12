@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}{{ profile_user.username }} | Profile{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 py-12">
+  <div class="max-w-3xl mx-auto px-4 text-white">
+    <div class="text-center mb-8">
+      <h2 class="text-3xl font-warrior text-saffron-300">🧍‍♂️ {{ profile_user.username }}</h2>
+    </div>
+
+    <h3 class="text-xl font-semibold text-gold-400 mb-4">📜 Kathas</h3>
+    {% for post in posts %}
+      <div class="bg-steel-800 rounded-lg p-4 mb-4 shadow-md">
+        <h4 class="text-xl font-semibold text-saffron-300">{{ post.title }}</h4>
+        <p class="text-sm text-gray-400">🗓️ {{ post.created_at|date:"M d, Y" }}</p>
+        <p class="mt-2">{{ post.content|truncatewords:30 }}</p>
+        <a href="{% url 'blog_detail' post.pk %}" class="text-saffron-300 hover:underline text-sm mt-2 inline-block">Read More →</a>
+      </div>
+    {% empty %}
+      <p class="text-gray-300 text-center">No blogs written yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Generate Diet Plan{% endblock %}
+{% block content %}
+<section class="py-12 min-h-screen bg-gradient-to-br from-maroon-900 to-steel-900 text-white">
+  <div class="max-w-md mx-auto px-4">
+    <h1 class="text-2xl font-warrior text-center mb-6 text-transparent bg-clip-text bg-gradient-to-r from-saffron-700 to-gold-400">Generate Your Diet Plan</h1>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <label for="goal" class="block font-semibold text-saffron-300">Fitness Goal</label>
+      <select name="goal" required class="w-full bg-steel-800 text-white p-2 rounded">
+        {% for goal in goals %}
+          <option value="{{ goal }}">{{ goal }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="level" class="block font-semibold text-saffron-300">Level</label>
+      <select name="level" required class="w-full bg-steel-800 text-white p-2 rounded">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+
+      <button type="submit"
+              class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 py-2 rounded hover:scale-105 transition">
+        🍱 Generate Diet
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock %}

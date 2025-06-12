@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 relative">
+  
+  <!-- Optional decorative background -->
+  <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); background-repeat: repeat;"></div>
+
+  <!-- Login Card -->
+  <div class="relative z-10 max-w-md w-full p-8 bg-white/10 backdrop-blur-md border border-saffron-500/20 rounded-xl shadow-2xl text-white">
+    
+    <div class="text-center mb-6">
+      <div class="text-4xl mb-2">⚔️</div>
+      <h2 class="text-2xl font-warrior text-transparent bg-clip-text bg-gradient-to-r from-saffron-300 to-gold-400">
+        Welcome Back, Yodha
+      </h2>
+      <p class="text-gray-300 text-sm">Enter your credentials to begin your journey</p>
+    </div>
+
+    <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}" class="space-y-5">
+      {% csrf_token %}
+      {% if form.errors %}
+  <div class="text-red-400 bg-red-100/80 border border-red-300 p-4 rounded-lg text-sm mb-4">
+    {% for field in form %}
+      {% for error in field.errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+      <p>{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+      <div>
+        <label for="username" class="block mb-1 text-saffron-300 font-semibold">Username</label>
+        <input type="text" name="username" id="username" required
+               class="w-full px-4 py-2 rounded-lg bg-steel-800 text-white border border-steel-700 focus:outline-none focus:ring-2 focus:ring-saffron-500">
+      </div>
+
+      <div>
+        <label for="password" class="block mb-1 text-saffron-300 font-semibold">Password</label>
+        <input type="password" name="password" id="password" required
+               class="w-full px-4 py-2 rounded-lg bg-steel-800 text-white border border-steel-700 focus:outline-none focus:ring-2 focus:ring-saffron-500">
+      </div>
+
+      <button type="submit"
+              class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white font-semibold py-2 rounded-lg transition transform hover:scale-105">
+        Enter the Arena
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-400 mt-6">
+      New to FitYodha? 
+      <a href="{% url "register" %}" class="text-saffron-300 hover:underline">Join now</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

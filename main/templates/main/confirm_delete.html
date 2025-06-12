@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Delete Katha | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 py-20">
+  <div class="max-w-lg mx-auto px-6 text-white text-center bg-steel-800 border border-red-600/30 p-8 rounded-xl shadow-2xl">
+    <h2 class="text-3xl font-warrior text-red-400 mb-4">⚠️ Confirm Deletion</h2>
+    <p class="text-gray-300 mb-6">Are you sure you want to delete the Katha titled:</p>
+    <p class="text-gold-400 font-semibold mb-4">“{{ blog.title }}”</p>
+
+    <form method="POST" class="space-x-4">
+      {% csrf_token %}
+      <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg font-semibold">
+        Yes, Delete
+      </button>
+      <a href="{% url 'blog_list' %}" class="bg-steel-700 hover:bg-steel-600 text-white px-6 py-2 rounded-lg font-semibold">
+        Cancel
+      </a>
+    </form>
+  </div>
+</section>
+{% endblock %}

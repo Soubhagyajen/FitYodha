@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Register | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 relative">
+  <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); background-repeat: repeat;"></div>
+
+  <div class="relative z-10 max-w-md w-full p-8 bg-white/10 backdrop-blur-md border border-saffron-500/20 rounded-xl shadow-2xl text-white">
+    <div class="text-center mb-6">
+      <div class="text-4xl mb-2">🛡️</div>
+      <h2 class="text-2xl font-warrior text-transparent bg-clip-text bg-gradient-to-r from-saffron-300 to-gold-400">
+        Join the Clan
+      </h2>
+      <p class="text-gray-300 text-sm">Create your Yodha account below</p>
+    </div>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      {% for field in form %}
+        <div>
+          <label class="block text-saffron-300 text-sm font-semibold">{{ field.label }}</label>
+          {{ field }}
+          {% for error in field.errors %}
+            <p class="text-red-400 text-xs mt-1">{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 text-white py-2 rounded-lg font-semibold hover:scale-105 transition">
+        Register
+      </button>
+    </form>
+
+    <p class="text-center text-sm text-gray-400 mt-6">
+      Already have an account? 
+      <a href="{% url 'login' %}" class="text-saffron-300 hover:underline">Login here</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

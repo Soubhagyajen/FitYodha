@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Edit Comment | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 py-12">
+  <div class="max-w-2xl mx-auto px-6 text-white">
+    <h2 class="text-2xl font-warrior text-saffron-300 text-center mb-6">✍️ Edit Your Comment</h2>
+
+    <form method="POST" class="space-y-5 bg-steel-800 border border-saffron-600/20 p-6 rounded-xl shadow-xl">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="w-full bg-gold-600 hover:bg-gold-700 text-white py-2 rounded-lg font-semibold transition">
+        Update Comment
+      </button>
+      <a href="{% url 'blog_detail' comment.blog.pk %}" class="block text-sm text-gray-300 mt-4 hover:underline text-center">
+        ← Back to Katha
+      </a>
+    </form>
+  </div>
+</section>
+{% endblock %}

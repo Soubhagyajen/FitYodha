@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ diet.goal }} Diet Plan</title>
+    <style>
+        body { font-family: Arial, sans-serif; font-size: 14px; padding: 20px; }
+        h2 { color: #ff9933; }
+        pre { background: #f4f4f4; padding: 12px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h2>{{ diet.level }} - {{ diet.goal }} Diet Plan</h2>
+    <pre>{{ diet.plan_text }}</pre>
+    <p>Generated on {{ diet.created_at }}</p>
+</body>
+</html>

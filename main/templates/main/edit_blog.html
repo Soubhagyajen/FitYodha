@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Edit Katha | FitYodha{% endblock %}
+
+{% block content %}
+<section class="min-h-screen bg-gradient-to-br from-maroon-900 via-steel-900 to-maroon-800 py-12">
+  <div class="max-w-2xl mx-auto px-6 text-white">
+    <h2 class="text-3xl font-warrior text-center text-saffron-300 mb-6">🛠️ Edit Your Katha</h2>
+
+    <form method="POST" class="space-y-5 bg-steel-800 border border-saffron-600/20 p-6 rounded-xl shadow-xl">
+      {% csrf_token %}
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Title</label>
+        {{ form.title }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Content</label>
+        {{ form.content }}
+      </div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white py-2 rounded-lg font-semibold hover:scale-105 transition">
+        Save Changes
+      </button>
+    </form>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,182 @@
+<!-- templates/base.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}FitYodha{% endblock %}</title>
+  <meta name="description" content="Ancient Indian warrior-inspired fitness tracking app. Your discipline is your Dharma.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+   
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            saffron: { 500: '#ff9933', 600: '#e67a1a', 700: '#cc6600' },
+            maroon: { 800: '#610000', 900: '#530000' },
+            steel: { 800: '#1e293b', 900: '#0f172a' },
+            gold: { 500: '#f59e0b', 600: '#d97706' }
+          },
+          fontFamily: {
+            warrior: ['Cinzel', 'serif'],
+            sanskrit: ['Noto Sans Devanagari', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    .bg-gradient-custom {
+      background: linear-gradient(135deg, #8b0000 0%, #475569 50%, #8b0000 100%);
+    }
+    .nav-underline {
+      position: relative;
+    }
+    .nav-underline::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(to right, #ff9933, #f59e0b);
+      transition: width 0.3s ease;
+    }
+    .nav-underline:hover::after {
+      width: 100%;
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-gray-50 font-inter">
+
+  <header class="bg-gradient-custom shadow-lg">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+      <div class="w-10 h-10 bg-gradient-to-br from-saffron-500 to-gold-500 rounded-full flex items-center justify-center text-white font-bold text-lg">⚔️</div>
+      <h1 class="text-3xl font-warrior font-bold text-transparent bg-gradient-to-r from-saffron-700 to-gold-500 bg-clip-text">FitYodha</h1>
+    </div>
+
+    <!-- Hamburger Button -->
+    <button class="lg:hidden text-white focus:outline-none" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden lg:flex space-x-6">
+      <a href="{% url 'home' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">Home</a>
+      <a href="{% url 'dashboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">Dashboard</a>
+      <a href="{% url 'generate_workout' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Generate Workout</a>
+      <a href="{% url 'generate_diet' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">
+  🍱 Generate Diet
+</a>
+
+      <a href="{% url 'leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">Yodha Sabha</a>
+      <a href="{% url 'blog_list' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">Katha Path</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'create_blog' %}" class="bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded hover:scale-105 transition">+ Blog</a>
+      {% endif %}
+      <a href="{% url 'streak_leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">🔥 Top Streaks</a>
+    </nav>
+{% comment %} <a href="{% url 'streak_leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">🔥 Top Streaks</a> {% endcomment %}
+
+    <!-- Login/Logout -->
+    <div class="hidden lg:block">
+      {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit"
+                  class="bg-gradient-to-r from-red-600 to-maroon-600 hover:from-red-700 hover:to-maroon-700 text-white px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105">
+            Logout
+          </button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded-lg hover:scale-105 transform transition">Login</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden mt-4 pb-4 border-t border-steel-700 hidden px-4">
+    <nav class="flex flex-col space-y-4 mt-4">
+      <a href="{% url 'home' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Home</a>
+      <a href="{% url 'dashboard' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Dashboard</a>
+      <a href="{% url 'generate_workout' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Generate Workout</a>
+      <a href="{% url 'generate_diet' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">
+  🍱 Generate Diet
+</a>
+
+      <a href="{% url 'log_workout' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Log Workout</a>
+      <a href="{% url 'leaderboard' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Yodha Sabha</a>
+      <a href="{% url 'blog_list' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Katha Path</a>
+      {% if user.profile.streak %}
+  <p class="text-saffron-500 text-sm">
+    🔥 {{ user.profile.streak }}-day streak
+    {% if user.profile.streak >= 7 %}
+      <span class="ml-2 px-2 py-1 text-yellow-400 border border-yellow-400 rounded text-xs">🥇 Gold</span>
+    {% elif user.profile.streak >= 3 %}
+      <span class="ml-2 px-2 py-1 text-gray-200 border border-gray-300 rounded text-xs">🥈 Silver</span>
+    {% elif user.profile.streak >= 1 %}
+      <span class="ml-2 px-2 py-1 text-orange-300 border border-orange-400 rounded text-xs">🥉 Bronze</span>
+    {% endif %}
+  </p>
+{% endif %}
+<a href="{% url 'streak_leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">🔥 Top Streaks</a>
+
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'create_blog' %}" class="bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded hover:scale-105 transition text-center">+ Create Blog</a>
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button type="submit"
+                  class="bg-gradient-to-r from-red-600 to-maroon-600 hover:from-red-700 hover:to-maroon-700 text-white px-4 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 w-full">
+            Logout
+          </button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" class="bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded-lg text-center hover:scale-105 transition">
+          Login
+        </a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+
+  <!-- Page Content -->
+  <main>
+    {% block content %}
+    {% if user.profile.freeze_used %}
+  <p class="text-sm text-yellow-400">🧊 Freeze used for yesterday</p>
+{% endif %}
+
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-br from-steel-900 via-maroon-900 to-steel-800 text-white mt-12">
+    <div class="h-2 bg-gradient-to-r from-saffron-500 via-gold-500 to-saffron-500"></div>
+    <div class="container mx-auto px-4 py-8 text-center">
+      <p class="text-gray-400">© 2024 FitYodha. Built with ancient wisdom & modern tech.</p>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

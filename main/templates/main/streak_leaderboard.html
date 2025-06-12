@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}🔥 Streak Leaderboard{% endblock %}
+{% block content %}
+<section class="min-h-screen py-16 bg-gradient-to-br from-maroon-900 to-steel-900 text-white">
+  <div class="max-w-2xl mx-auto px-4">
+    <h1 class="text-3xl font-warrior text-center mb-8 text bg-clip-text bg-gradient-to-r from-saffron-700 to-gold-490">
+      🔥 FitYodha Streak Leaderboard
+    </h1>
+
+    <ol class="space-y-4">
+      {% for profile in top_profiles %}
+        <li class="bg-white/10 p-4 rounded-lg border border-saffron-500/10 shadow flex justify-between items-center">
+          <span class="font-semibold text-saffron-300">{{ forloop.counter }}. {{ profile.user.username }}</span>
+          <span class="text-sm text-gold-300">🔥 {{ profile.streak }} days</span>
+        </li>
+      {% empty %}
+        <li class="text-gray-400">No warriors with active streaks yet.</li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+{% endblock %}
