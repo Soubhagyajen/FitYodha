@@ -19,20 +19,29 @@
       <p class="text-gray-300 text-sm">Enter your credentials to begin your journey</p>
     </div>
 
-    <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}" class="space-y-5">
+    <!-- Register CTA -->
+    <div class="text-center mb-4">
+      <p class="text-sm text-gray-400 mb-2">New here?</p>
+      <a href="{% url 'register' %}" 
+         class="inline-block bg-gradient-to-r from-saffron-600 to-gold-600 text-white px-4 py-2 rounded-lg font-semibold hover:scale-105 transition">
+        🔰 Join FitYodha
+      </a>
+    </div>
+
+    <form method="POST" action="{% url 'login' %}?next={{ request.GET.next }}" class="space-y-5 mt-4">
       {% csrf_token %}
       {% if form.errors %}
-  <div class="text-red-400 bg-red-100/80 border border-red-300 p-4 rounded-lg text-sm mb-4">
-    {% for field in form %}
-      {% for error in field.errors %}
-        <p>{{ error }}</p>
-      {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-      <p>{{ error }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
+        <div class="text-red-400 bg-red-100/80 border border-red-300 p-4 rounded-lg text-sm mb-4">
+          {% for field in form %}
+            {% for error in field.errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
 
       <div>
         <label for="username" class="block mb-1 text-saffron-300 font-semibold">Username</label>
@@ -53,8 +62,7 @@
     </form>
 
     <p class="text-center text-sm text-gray-400 mt-6">
-      New to FitYodha? 
-      <a href="{% url "register" %}" class="text-saffron-300 hover:underline">Join now</a>
+      Forgot your credentials? Try again or <a href="{% url 'register' %}" class="text-saffron-300 hover:underline">sign up</a>.
     </p>
   </div>
 </section>
