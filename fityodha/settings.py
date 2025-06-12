@@ -109,12 +109,21 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # }
 
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='sqlite:///db.sqlite3',  # ✅ fallback for local dev
+#         conn_max_age=600
+#     )
+# }
+import dj_database_url
+
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',  # ✅ fallback for local dev
+    'default': dj_database_url.parse(
+        'postgresql://fityodha_db_user:kmFLFtASvqHjDAxbu5MC1fHxZiqbWe2s@dpg-d158at15pdvs73f0pt2g-a.singapore-postgres.render.com/fityodha_db',
         conn_max_age=600
     )
 }
+
 
 
 # Password validation
