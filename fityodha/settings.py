@@ -43,6 +43,7 @@ INSTALLED_APPS = [
       'tailwind',
       'theme',
       'django.contrib.humanize',
+      'widget_tweaks',
 
 ]
 
@@ -85,7 +86,7 @@ TEMPLATES[0]['DIRS'] = [BASE_DIR / 'templates']
 
 # Static files
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -107,6 +108,19 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 #         'PORT': '5432',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',  # From Supabase
+        'USER': 'postgres',  # From Supabase
+        'PASSWORD': 'Soubhagya@2004',  # From Supabase
+        'HOST': 'db.nhapehndwgpwyjjnmjmx.supabase.co',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        }
+    }
+}
 
 
 # DATABASES = {
@@ -117,12 +131,12 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # }
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        'postgresql://fityodha_db_user:kmFLFtASvqHjDAxbu5MC1fHxZiqbWe2s@dpg-d158at15pdvs73f0pt2g-a.singapore-postgres.render.com/fityodha_db',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.parse(
+#         'postgresql://fityodha_db_user:kmFLFtASvqHjDAxbu5MC1fHxZiqbWe2s@dpg-d158at15pdvs73f0pt2g-a.singapore-postgres.render.com/fityodha_db',
+#         conn_max_age=600
+#     )
+# }
 
 
 
