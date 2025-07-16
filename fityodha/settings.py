@@ -125,10 +125,20 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://neondb_owner:npg_Crauetc0E4JD@ep-lively-pond-a1k7yi1g-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'neondb',
+        'USER': 'neondb_owner',
+        'PASSWORD': 'npg_Crauetc0E4JD',
+        'HOST': 'ep-lively-pond-a1k7yi1g-pooler.ap-southeast-1.aws.neon.tech',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+            'sslrootcert': '',  # Optional for local dev, not required on Render
+        }
+    }
 }
+
 # DATABASES = {
 #     'default': dj_database_url.config(
 #         default='sqlite:///db.sqlite3',  # ✅ fallback for local dev
