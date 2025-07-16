@@ -129,15 +129,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'neondb',
         'USER': 'neondb_owner',
-        'PASSWORD': 'npg_Crauetc0E4JD',
+        'PASSWORD': 'npg_Crauetc0E4JD',  # 🔐 Secure this later
         'HOST': 'ep-lively-pond-a1k7yi1g-pooler.ap-southeast-1.aws.neon.tech',
         'PORT': '5432',
         'OPTIONS': {
             'sslmode': 'require',
-            'sslrootcert': '',  # Optional for local dev, not required on Render
         }
     }
 }
+
 
 # DATABASES = {
 #     'default': dj_database_url.config(
