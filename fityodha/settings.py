@@ -108,21 +108,27 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 #         'PORT': '5432',
 #     }
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',  # From Supabase
+#         'USER': 'postgres',  # From Supabase
+#         'PASSWORD': 'Soubhagya@2004',  # From Supabase
+#         'HOST': 'db.nhapehndwgpwyjjnmjmx.supabase.co',
+#         'PORT': '5432',
+#         'OPTIONS': {
+#             'sslmode': 'require',
+#         }
+#     }
+# }
+
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  # From Supabase
-        'USER': 'postgres',  # From Supabase
-        'PASSWORD': 'Soubhagya@2004',  # From Supabase
-        'HOST': 'db.nhapehndwgpwyjjnmjmx.supabase.co',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
-    }
+    'default': dj_database_url.config(
+        default='postgresql://neondb_owner:npg_Crauetc0E4JD@ep-lively-pond-a1k7yi1g-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+    )
 }
-
-
 # DATABASES = {
 #     'default': dj_database_url.config(
 #         default='sqlite:///db.sqlite3',  # ✅ fallback for local dev
