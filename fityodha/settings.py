@@ -124,18 +124,14 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 import dj_database_url
 
+# import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',
-        'USER': 'neondb_owner',
-        'PASSWORD': 'npg_Crauetc0E4JD',  # 🔐 Secure this later
-        'HOST': 'ep-lively-pond-a1k7yi1g-pooler.ap-southeast-1.aws.neon.tech',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        }
-    }
+    'default': dj_database_url.parse(
+        'postgresql://fit_yodha_user:9F6rAqP4XsfIKKASqvuxAIbHEZlzhqWh@dpg-d228r7qdbo4c73eunnv0-a.singapore-postgres.render.com/fit_yodha',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 
