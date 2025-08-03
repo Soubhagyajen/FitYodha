@@ -12,14 +12,14 @@
       </div>
     {% endif %}
 
-    <form method="POST" class="space-y-5 bg-steel-800 p-6 rounded-xl border border-saffron-600/20 shadow-2xl">
+    <form method="POST" enctype="multipart/form-data" class="space-y-5 bg-steel-800 p-6 rounded-xl border border-saffron-600/20 shadow-2xl">
       {% csrf_token %}
-      
+
       <div>
         <label class="block text-sm font-semibold text-saffron-300 mb-1">Workout Type</label>
         {{ form.workout_type }}
       </div>
-      
+
       <div>
         <label class="block text-sm font-semibold text-saffron-300 mb-1">Duration (minutes)</label>
         {{ form.duration }}
@@ -28,6 +28,11 @@
       <div>
         <label class="block text-sm font-semibold text-saffron-300 mb-1">Intensity</label>
         {{ form.intensity }}
+      </div>
+
+      <div>
+        <label class="block text-sm font-semibold text-saffron-300 mb-1">Upload Image (optional)</label>
+        {{ form.image }}
       </div>
 
       <button type="submit" class="w-full bg-gradient-to-r from-saffron-600 to-gold-600 hover:from-saffron-700 hover:to-gold-700 text-white py-2 rounded-lg font-semibold hover:scale-105 transition">

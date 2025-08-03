@@ -96,6 +96,13 @@
     </nav>
 {% comment %} <a href="{% url 'streak_leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">🔥 Top Streaks</a> {% endcomment %}
 
+{% if user.is_authenticated %}
+  <a href="{% url 'user_profile' user.username %}" class="flex items-center space-x-2 hover:underline">
+    <img src="{{ user.profile.image_url|default:'/static/images/default-avatar.png' }}" alt="Profile" class="w-8 h-8 rounded-full border border-saffron-500">
+    <span class="text-gray-200 font-medium">{{ user.username }}</span>
+  </a>
+{% endif %}
+
     <!-- Login/Logout -->
     <div class="hidden lg:block">
       {% if user.is_authenticated %}
@@ -113,7 +120,14 @@
   </div>
 
   <!-- Mobile Menu -->
+   
   <div id="mobile-menu" class="lg:hidden mt-4 pb-4 border-t border-steel-700 hidden px-4">
+    {% if user.is_authenticated %}
+  <a href="{% url 'user_profile' user.username %}" class="flex items-center space-x-2 hover:underline">
+    <img src="{{ user.profile.image_url|default:'/static/images/default-avatar.png' }}" alt="Profile" class="w-8 h-8 rounded-full border border-saffron-500">
+    <span class="text-gray-200 font-medium">{{ user.username }}</span>
+  </a>
+{% endif %}
     <nav class="flex flex-col space-y-4 mt-4">
       <a href="{% url 'home' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Home</a>
       <a href="{% url 'dashboard' %}" class="text-gray-200 hover:text-saffron-300 transition-colors font-medium">Dashboard</a>
@@ -138,6 +152,12 @@
   </p>
 {% endif %}
 <a href="{% url 'streak_leaderboard' %}" class="text-gray-200 hover:text-saffron-300 font-medium nav-underline">🔥 Top Streaks</a>
+{% comment %} {% if user.is_authenticated %}
+  <a href="{% url 'user_profile' user.username %}" class="flex items-center space-x-2 hover:underline">
+    <img src="{{ user.profile.image_url|default:'/static/images/default-avatar.png' }}" alt="Profile" class="w-8 h-8 rounded-full border border-saffron-500">
+    <span class="text-gray-200 font-medium">{{ user.username }}</span>
+  </a>
+{% endif %} {% endcomment %}
 
 
       {% if user.is_authenticated %}

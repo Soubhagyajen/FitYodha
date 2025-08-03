@@ -7,23 +7,28 @@
     <h2 class="text-3xl font-warrior text-saffron-700 mb-6 text-center">📜 Katha Path</h2>
 
     {% for blog in posts %}
-      <div class="bg-steel-800 border border-saffron-500/20 rounded-lg shadow-md p-6 mb-6">
-        <h3 class="text-xl font-semibold text-saffron-500">{{ blog.title }}</h3>
-        <p class="text-sm text-gray-400 mb-2">✍️ {{ blog.author.username }} | 🗓️ {{ blog.created_at|date:"M d, Y" }}</p>
-        <p class="text-white">{{ blog.content|truncatewords:30 }}</p>
-        <div class="mt-4 flex items-center justify-between">
-          <a href="{% url 'blog_detail' blog.pk %}" class="text-saffron-700 hover:underline text-sm">Read More →</a>
-          {% if user == blog.author %}
-            <div class="flex gap-2">
-              <a href="{% url 'edit_blog' blog.pk %}" class="bg-gold-600 text-white text-sm px-3 py-1 rounded hover:bg-gold-700">Edit</a>
-              <a href="{% url 'delete_blog' blog.pk %}" class="bg-red-600 text-white text-sm px-3 py-1 rounded hover:bg-red-700">Delete</a>
-            </div>
-          {% endif %}
+  <div class="bg-steel-800 border border-saffron-500/20 rounded-lg shadow-md p-6 mb-6">
+    {% if blog.image_url %}
+      <img src="{{ blog.image_url }}" alt="{{ blog.title }}" class="rounded-md mb-4 max-h-64 w-full object-cover shadow" />
+
+    {% endif %}
+    <h3 class="text-xl font-semibold text-saffron-500">{{ blog.title }}</h3>
+    <p class="text-sm text-gray-400 mb-2">✍️ {{ blog.author.username }} | 🗓️ {{ blog.created_at|date:"M d, Y" }}</p>
+    <p class="text-white">{{ blog.content|truncatewords:30 }}</p>
+    <div class="mt-4 flex items-center justify-between">
+      <a href="{% url 'blog_detail' blog.pk %}" class="text-saffron-700 hover:underline text-sm">Read More →</a>
+      {% if user == blog.author %}
+        <div class="flex gap-2">
+          <a href="{% url 'edit_blog' blog.pk %}" class="bg-gold-600 text-white text-sm px-3 py-1 rounded hover:bg-gold-700">Edit</a>
+          <a href="{% url 'delete_blog' blog.pk %}" class="bg-red-600 text-white text-sm px-3 py-1 rounded hover:bg-red-700">Delete</a>
         </div>
-      </div>
-    {% empty %}
-      <p class="text-gray-300 text-center">No Kathas have been written yet. Be the first to inspire the Yodhas!</p>
-    {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+{% empty %}
+  <p class="text-gray-300 text-center">No Kathas have been written yet. Be the first to inspire the Yodhas!</p>
+{% endfor %}
+
   </div>
 </section>
 {% endblock %}

@@ -12,6 +12,7 @@ class WorkoutLog(models.Model):
     duration = models.IntegerField(help_text="Duration in minutes")
     intensity = models.CharField(max_length=20, choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High')])
     date = models.DateField(auto_now_add=True)
+    image_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.workout_type} on {self.date}"
@@ -40,7 +41,7 @@ class BlogPost(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # image_url = models.URLField(blank=True, null=True)  # Supabase URL
+    image_url = models.URLField(blank=True, null=True)  # Add this back
     streak = models.IntegerField(default=0)
     last_workout_date = models.DateField(null=True, blank=True)
     freeze_used = models.BooleanField(default=False)

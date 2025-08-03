@@ -26,6 +26,10 @@ def home(request):
     return render(request, 'main/home.html')
 
 
+import requests
+
+
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -266,7 +270,7 @@ def export_plan_pdf(request, pk):
 def log_workout(request):
     message = None
     if request.method == 'POST':
-        form = WorkoutLogForm(request.POST)
+        form = WorkoutLogForm(request.POST, request.FILES)  # handle image
         if form.is_valid():
             workout = form.save(commit=False)
             workout.user = request.user
@@ -278,7 +282,6 @@ def log_workout(request):
             except Profile.DoesNotExist:
                 Profile.objects.create(user=request.user)
                 update_streak(request.user)
-
     else:
         form = WorkoutLogForm()
 
@@ -340,7 +343,7 @@ def leaderboard(request):
 
 
 def blog_list(request):
-    posts = BlogPost.objects.order_by('-created_at')
+    posts = BlogPost.objects.all().order_by('-created_at')
     return render(request, 'main/blog_list.html', {'posts': posts})
 
 
@@ -377,18 +380,35 @@ def blog_list(request):
 
 
 
-@login_required
+IMGBB_API_KEY = 'd1b9b4786b4fb06b70ce12ccc9830933'
+
+
 def create_blog(request):
     if request.method == 'POST':
-        form = BlogPostForm(request.POST)
+        form = BlogPostForm(request.POST, request.FILES)
         if form.is_valid():
             blog = form.save(commit=False)
             blog.author = request.user
+
+            if 'image' in request.FILES:
+                image_file = request.FILES['image']
+                response = requests.post(
+                    "https://api.imgbb.com/1/upload",
+                    data={"key": IMGBB_API_KEY},
+                    files={"image": image_file}
+                )
+                if response.status_code == 200:
+                    image_url = response.json()['data']['url']
+                    blog.image_url = image_url  # ✅ Save URL to image_url field
+                else:
+                    print("Image upload failed:", response.json())
+
             blog.save()
             return redirect('blog_list')
     else:
         form = BlogPostForm()
     return render(request, 'main/create_blog.html', {'form': form})
+
 
 @login_required
 def edit_blog(request, pk):
@@ -497,15 +517,50 @@ def delete_blog(request, pk):
         return redirect('blog_list')
     return render(request, 'main/confirm_delete.html', {'blog': blog})
 
-@login_required
+# @login_required
+# def user_profile(request, username):
+#     profile_user = get_object_or_404(User, username=username)
+#     posts = BlogPost.objects.filter(author=profile_user).order_by('-created_at')
+#     return render(request, 'main/user_profile.html', {'profile_user': profile_user, 'posts': posts})
+
 def user_profile(request, username):
     profile_user = get_object_or_404(User, username=username)
-    posts = BlogPost.objects.filter(author=profile_user).order_by('-created_at')
-    return render(request, 'main/user_profile.html', {'profile_user': profile_user, 'posts': posts})
+    profile = get_object_or_404(Profile, user=profile_user)
+    posts = BlogPost.objects.filter(author=profile_user)
 
 
+    return render(request, 'main/user_profile.html', {
+        'profile_user': profile_user,
+        'profile': profile,
+        'posts': posts
+    })
 
+from .forms import ProfilePictureForm
+def upload_profile_picture(request):
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES)
+        if form.is_valid():
+            image_file = form.cleaned_data['image']
+            image_data = image_file.read()
 
+            response = requests.post(
+                "https://api.imgbb.com/1/upload",
+                params={"key": IMGBB_API_KEY},
+                files={"image": image_data}
+            )
+
+            if response.status_code == 200:
+                image_url = response.json()['data']['url']
+                profile = request.user.profile
+                profile.image_url = image_url
+                profile.save()
+                return redirect('user_profile', username=request.user.username)
+            else:
+                return render(request, 'upload_error.html', {'error': 'Failed to upload to imgbb'})
+    else:
+        form = ProfilePictureForm()
+    
+    return render(request, 'main/upload_profile_picture.html', {'form': form})
 
 import uuid, requests
 from django.conf import settings

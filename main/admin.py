@@ -16,19 +16,15 @@ class WorkoutLogAdmin(admin.ModelAdmin):
 
 from .models import BlogPost
 from django.utils.html import format_html
+from django.utils.html import mark_safe
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'created_at', 'image_preview')
-    readonly_fields = ['image_preview']
-    search_fields = ('title', 'author__username')
+    list_display = ('title', 'image_preview', 'created_at')
 
     def image_preview(self, obj):
-        if obj.image_url:
-            return format_html('<img src="{}" style="max-height: 100px; border-radius: 8px;" />', obj.image_url)
-        return "No Image"
-    
-    image_preview.short_description = 'Preview'
+        return mark_safe(f'<img src="{obj.image_url}" width="100" />')
+
 
 # from .models import Profile
 # @admin.register(Profile)

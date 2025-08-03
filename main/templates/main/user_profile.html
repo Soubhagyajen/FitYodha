@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}{{ profile_user.username }} | Profile{% endblock %}
 
 {% block content %}
@@ -7,6 +8,17 @@
     <div class="text-center mb-8">
       <h2 class="text-3xl font-warrior text-saffron-300">🧍‍♂️ {{ profile_user.username }}</h2>
     </div>
+
+{% if user.profile.image_url  %}
+  <img src="{{ profile.image_url }}" alt="Profile Picture" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-saffron-400 object-cover">
+  {% comment %} <p>Profile Image URL: {{ profile.image_url }}</p> {% endcomment %}
+
+{% else %}
+
+  <img src="{% static 'images/default_profile.png' %}" alt="Default Picture" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-saffron-400 object-cover">
+  <p>Profile Image URL: {{ profile.image_url }}</p>
+{% endif %}
+<a href="{% url 'upload_profile_picture' %}" class="text-saffron-400 hover:underline">Upload Profile Picture</a>
 
     <h3 class="text-xl font-semibold text-gold-400 mb-4">📜 Kathas</h3>
     {% for post in posts %}

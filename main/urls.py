@@ -3,7 +3,8 @@ from .views import home , register, dashboard ,generate_workout, log_workout, le
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home, name='home'),
@@ -31,6 +32,7 @@ urlpatterns = [
     path('export-plan/<int:pk>/', views.export_plan_pdf, name='export_plan_pdf'),
     path('generate-diet/', views.generate_diet, name='generate_diet'),
     path('export-diet/<int:pk>/', views.export_diet_pdf, name='export_diet_pdf'),
+    path('upload-profile-picture/', views.upload_profile_picture, name='upload_profile_picture'),
 
 
 
@@ -45,4 +47,6 @@ urlpatterns = [
 
     # path("", TemplateView.as_view(template_name="home.html"), name="home"),
     # Add more URL patterns as needed
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
